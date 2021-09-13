@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "713136539683",
+    "project_id": "tea-time-dfa14",
+    "storage_bucket": "tea-time-dfa14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713136539683:android:c4cc7d9a3fda50d6470996",
+        "android_client_info": {
+          "package_name": "com.example.tea_time"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713136539683-qchfn4ugff9ndjp8pbdtg0578vhaq2cn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tea_time",
+            "certificate_hash": "75eb46948d9aa8ddaaac6de0bec8e5037d583068"
+          }
+        },
+        {
+          "client_id": "713136539683-gf7tkep6hfcj4tq87vo9uo0vsup90dtn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIwsi3zkCXeTVaqL6-3oGY7yGO2S6Ol10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713136539683-gf7tkep6hfcj4tq87vo9uo0vsup90dtn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

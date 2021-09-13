@@ -17,6 +17,7 @@ jobs:
         with:
           channel: "stable"
       - run: flutter config --enable-web
+      - run: cd tea_time
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
