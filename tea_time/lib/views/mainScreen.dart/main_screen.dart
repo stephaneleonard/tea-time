@@ -15,14 +15,20 @@ class MainScreen extends StatelessWidget {
         children: <Widget>[
           BlocBuilder<UserCubit, UserState>(
               builder: (BuildContext context, UserState state) {
+            if (state is UserLoading) {
+              return const Text('loading');
+            }
             if (state is UserLoaded) {
               return Text(state.user.name);
+            }
+            if (state is UserError) {
+              return const Text('error');
             }
             return const Text('error');
           }),
           TextButton(
-            onPressed: () {
-              firebaseAuth.signOut();
+            onPressed: () async {
+              await firebaseAuth.signOut();
               Navigator.popAndPushNamed(context, '/login');
             },
             child: const Text('sign out'),
