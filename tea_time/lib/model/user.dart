@@ -2,15 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tea_time/utils/auth.dart';
 
 class User {
-  const User({required this.name});
+  User({required this.name, required this.collectionId});
 
-  final String name;
+  User.fromFirebase(QuerySnapshot<Map<String, dynamic>?> data) {
+    name = data.docs[0].data()!['name'];
+    collectionId = data.docs[0].data()!['collection'];
+  }
+
+  late String name;
+  String? collectionId;
 }
 
 Future<User> fetchUser() async {
   CollectionReference<Object?> users =
       FirebaseFirestore.instance.collection('User');
-  QuerySnapshot<Object?> data =
-      await users.where('UID', isEqualTo: firebaseAuth.currentUser!.uid).get();
-  return User(name: data.docs[0]['name']);
+  QuerySnapshot<Map<String, dynamic>?> data = await users
+      .where('UID', isEqualTo: firebaseAuth.currentUser!.uid)
+      .get() as QuerySnapshot<Map<String, dynamic>?>;
+  return User.fromFirebase(data);
 }

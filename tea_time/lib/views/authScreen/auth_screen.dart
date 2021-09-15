@@ -134,42 +134,42 @@ class _LoginFormState extends State<LoginForm> {
                   : const Text('login'),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(
-                  double.infinity,
-                  50,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed: () async {
-                setState(() {
-                  isLoading = true;
-                });
-                if (_formKey.currentState!.validate()) {
-                  try {
-                    await firebaseAuth.createUserWithEmailAndPassword(
-                        email: _email.text, password: _password.text);
-                    Navigator.popAndPushNamed(context, '/main');
-                  } on FirebaseAuthException catch (e) {
-                    setState(() {
-                      errorMessage = e.message ?? 'Unexpected error';
-                      isLoading = false;
-                    });
-                  }
-                }
-              },
-              child: isLoading
-                  ? const CircularProgressIndicator(
-                      color: Colors.white,
-                    )
-                  : const Text('Sign up'),
-            ),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.symmetric(vertical: 10),
+          //   child: ElevatedButton(
+          //     style: ElevatedButton.styleFrom(
+          //       minimumSize: const Size(
+          //         double.infinity,
+          //         50,
+          //       ),
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //     ),
+          //     onPressed: () async {
+          //       setState(() {
+          //         isLoading = true;
+          //       });
+          //       if (_formKey.currentState!.validate()) {
+          //         try {
+          //           await firebaseAuth.createUserWithEmailAndPassword(
+          //               email: _email.text, password: _password.text);
+          //           Navigator.popAndPushNamed(context, '/main');
+          //         } on FirebaseAuthException catch (e) {
+          //           setState(() {
+          //             errorMessage = e.message ?? 'Unexpected error';
+          //             isLoading = false;
+          //           });
+          //         }
+          //       }
+          //     },
+          //     child: isLoading
+          //         ? const CircularProgressIndicator(
+          //             color: Colors.white,
+          //           )
+          //         : const Text('Sign up'),
+          //   ),
+          // ),
         ],
       ),
     );

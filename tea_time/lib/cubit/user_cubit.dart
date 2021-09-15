@@ -7,13 +7,13 @@ part 'user_state.dart';
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(const UserInitial());
 
-  void getUserInfos() async {
+  Future<void> getUserInfos() async {
     emit(const UserLoading());
     try {
       final User user = await fetchUser();
       emit(UserLoaded(user));
     } catch (e) {
-      emit(const UserError('unexpected error'));
+      emit(UserError(e.toString()));
     }
   }
 }
