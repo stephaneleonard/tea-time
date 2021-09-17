@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
 import 'package:tea_time/utils/theme.dart';
 import 'package:tea_time/views/authScreen/auth_screen.dart';
+import 'package:tea_time/views/brewingTeaScreen.dart/brewing_tea_screen.dart';
 import 'package:tea_time/views/mainScreen.dart/main_screen.dart';
 
 Future<void> main() async {
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
           // When navigating to the "/" route, build the FirstScreen widget.
           '/login': (BuildContext context) => const PreLoginScreen(),
           '/main': (BuildContext context) => const MainScreen(),
+          '/brewing': (BuildContext context) => const BrewingScreen(),
         },
       ),
     );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/cubit/collection_cubit.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
+import 'package:tea_time/model/collection.dart';
+import 'package:tea_time/model/screen_arguments.dart';
 
 class CollectionScreen extends StatelessWidget {
   const CollectionScreen({Key? key}) : super(key: key);
@@ -20,7 +22,8 @@ class CollectionScreen extends StatelessWidget {
           return BlocProvider<CollectionCubit>(
             create: (BuildContext context) => CollectionCubit(),
             child: CollectionList(
-              id: state.user.collectionId ?? '',
+              collectionId: state.user.collectionId ?? '',
+              userId: state.user.id,
             ),
           );
         }
@@ -41,13 +44,16 @@ class CollectionScreen extends StatelessWidget {
 }
 
 class CollectionList extends StatelessWidget {
-  const CollectionList({required this.id, Key? key}) : super(key: key);
+  const CollectionList(
+      {required this.collectionId, required this.userId, Key? key})
+      : super(key: key);
 
-  final String id;
+  final String collectionId;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
-    context.read<CollectionCubit>().getCollection(id);
+    context.read<CollectionCubit>().getCollection(collectionId);
     return BlocBuilder<CollectionCubit, CollectionState>(
         builder: (BuildContext context, CollectionState state) {
       if (state is CollectionLoading) {
@@ -56,8 +62,48 @@ class CollectionList extends StatelessWidget {
         );
       }
       if (state is CollectionLoaded) {
-        return Center(
-          child: Text(state.collection.owner),
+        if (userId == state.collection.owner) {
+          return Container(
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+            child: GridView.builder(
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 0.8,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20),
+                itemCount: state.collection.containers.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index < state.collection.containers.length) {
+                    if (state.collection.containers[index].name == null) {
+                      return EmptyContainerTile(index: index);
+                    }
+                    return FullContainerTile(
+                        index: index,
+                        container: state.collection.containers[index]);
+                  }
+                  return const AddContainerTile();
+                }),
+          );
+        }
+        return Container(
+          padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+          child: GridView.builder(
+              physics: const BouncingScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  childAspectRatio: 0.8,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20),
+              itemCount: state.collection.containers.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (state.collection.containers[index].name == null) {
+                  return EmptyContainerTile(index: index);
+                }
+                return FullContainerTile(
+                    index: index,
+                    container: state.collection.containers[index]);
+              }),
         );
       }
       if (state is CollectionError) {
@@ -69,5 +115,188 @@ class CollectionList extends StatelessWidget {
         child: Text('Unexpected error'),
       );
     });
+  }
+}
+
+class FullContainerTile extends StatelessWidget {
+  const FullContainerTile(
+      {required this.index, required this.container, Key? key})
+      : super(key: key);
+
+  final TeaContainer container;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // ignore: avoid_print
+        Navigator.pushNamed(
+          context,
+          '/brewing',
+          arguments: ScreenArguments(index, container.reviewId ?? ''),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: Image.asset(
+                  'assets/images/${container.type}.png',
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                bottom: 10,
+              ),
+            ),
+            Text(
+              'Box: ${index + 1}',
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                bottom: 7,
+              ),
+            ),
+            Text(
+              container.name ?? '',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EmptyContainerTile extends StatelessWidget {
+  const EmptyContainerTile({required this.index, Key? key}) : super(key: key);
+
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            child: Container(),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(
+              bottom: 10,
+            ),
+          ),
+          Text(
+            'Box: ${index + 1}',
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(
+              bottom: 7,
+            ),
+          ),
+          Text(
+            'Empty',
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            softWrap: false,
+            style: TextStyle(
+              color: Colors.grey.shade600,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AddContainerTile extends StatelessWidget {
+  const AddContainerTile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: const <Widget>[
+          Expanded(
+            child: Center(
+              child: Icon(
+                Icons.add_circle_outline_outlined,
+                size: 100,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: 10,
+            ),
+          ),
+          Text(
+            'Add new container',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: 7,
+            ),
+          ),
+          Text(
+            '',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
