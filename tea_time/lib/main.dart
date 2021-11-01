@@ -28,7 +28,7 @@ class _AppState extends State<App> {
       create: (BuildContext context) => UserCubit(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Tea Time',
         theme: lightTheme,
         home: const PreLoginScreen(),
         routes: <String, Widget Function(BuildContext)>{

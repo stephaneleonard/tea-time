@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
 import 'package:tea_time/views/CollectionScreen/collection_screen.dart';
+import 'package:tea_time/views/DiscoverScreen/discover_screen.dart';
+import 'package:tea_time/views/ProfileScreen/profile_screen.dart';
 import 'package:tea_time/widgets/custom_app_bar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -19,9 +21,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List<Widget> pages = <Widget>[
-    // const CollectionScreen(),
-    // const DiscoverScreen(),
-    // const ProfileScreen()
+    const CollectionScreen(),
+    const DiscoverScreen(),
+    const ProfileScreen()
   ];
 
   int selectedIndex = 0;
@@ -30,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
     context.read<UserCubit>().getUserInfos();
     return Scaffold(
       appBar: const CustomAppBar(title: 'Tea Time'),
-      body: const CollectionScreen(),
+      body: pages[selectedIndex],
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: selectedIndex,
         onItemTap: onItemTap,
