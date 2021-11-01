@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:tea_time/model/user.dart';
+import 'package:tea_time/data/model/user.dart';
+import 'package:tea_time/domain/entities/user.dart';
 
 part 'user_state.dart';
 

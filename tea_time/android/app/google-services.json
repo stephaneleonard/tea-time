@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:713136539683:android:c4cc7d9a3fda50d6470996",
+        "mobilesdk_app_id": "1:713136539683:android:f52ac684ab5a18df470996",
         "android_client_info": {
-          "package_name": "com.example.tea_time"
+          "package_name": "com.rtc_lab.tea_time"
         }
       },
       "oauth_client": [
         {
-          "client_id": "713136539683-qchfn4ugff9ndjp8pbdtg0578vhaq2cn.apps.googleusercontent.com",
+          "client_id": "713136539683-hlnfc9omqjbg24mmp588q3l739923gdt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.tea_time",
+            "package_name": "com.rtc_lab.tea_time",
             "certificate_hash": "75eb46948d9aa8ddaaac6de0bec8e5037d583068"
           }
         },
