@@ -64,7 +64,7 @@ class CollectionList extends StatelessWidget {
       if (state is CollectionLoaded) {
         if (userId == state.collection.owner) {
           return Container(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
             child: GridView.builder(
                 physics: const BouncingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -82,7 +82,9 @@ class CollectionList extends StatelessWidget {
                         index: index,
                         container: state.collection.containers[index]);
                   }
-                  return const AddContainerTile();
+                  return AddContainerTile(
+                    uid: collectionId,
+                  );
                 }),
           );
         }
@@ -162,11 +164,7 @@ class FullContainerTile extends StatelessWidget {
             ),
             Text(
               'Box: ${index + 1}',
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.headline6,
             ),
             const Padding(
               padding: EdgeInsets.only(
@@ -218,11 +216,7 @@ class EmptyContainerTile extends StatelessWidget {
           ),
           Text(
             'Box: ${index + 1}',
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.headline6,
           ),
           const Padding(
             padding: EdgeInsets.only(
@@ -247,56 +241,60 @@ class EmptyContainerTile extends StatelessWidget {
 }
 
 class AddContainerTile extends StatelessWidget {
-  const AddContainerTile({Key? key}) : super(key: key);
+  const AddContainerTile({required this.uid, Key? key}) : super(key: key);
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
-          Expanded(
-            child: Center(
-              child: Icon(
-                Icons.add_circle_outline_outlined,
-                size: 100,
-                color: Colors.grey,
+    return GestureDetector(
+      onTap: () {
+        addABox(uid);
+        context.read<CollectionCubit>().getCollection(uid);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Expanded(
+              child: Center(
+                child: Icon(
+                  Icons.add_circle_outline_outlined,
+                  size: 100,
+                  color: Colors.grey,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: 10,
+            const Padding(
+              padding: EdgeInsets.only(
+                bottom: 10,
+              ),
             ),
-          ),
-          Text(
-            'Add new container',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+            Text(
+              'Add Container',
+              style: Theme.of(context).textTheme.headline6,
+              softWrap: false,
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: 7,
+            const Padding(
+              padding: EdgeInsets.only(
+                bottom: 7,
+              ),
             ),
-          ),
-          Text(
-            '',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+            const Text(
+              '',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
