@@ -42,3 +42,14 @@ Future<Collection> fetchCollection(String id) async {
       as DocumentSnapshot<Map<String, dynamic>?>;
   return Collection.fromJson(data.data() ?? {});
 }
+
+
+Future<void> addABox(String uid) async {
+  CollectionReference<Object?> collections =
+      FirebaseFirestore.instance.collection('Collection');
+  await collections.doc(uid).update({
+    'containers': FieldValue.arrayUnion([
+      {'name': null, 'type': null}
+    ])
+  });
+}
