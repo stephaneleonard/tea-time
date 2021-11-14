@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/cubit/collection_cubit.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
-import 'package:tea_time/data/model/collection.dart';
 import 'package:tea_time/data/model/screen_arguments.dart';
 import 'package:tea_time/domain/entities/tea_container.dart';
 
@@ -241,65 +240,6 @@ class EmptyContainerTile extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class AddContainerTile extends StatelessWidget {
-  const AddContainerTile({required this.uid, Key? key}) : super(key: key);
-  final String uid;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        addABox(uid);
-        context.read<CollectionCubit>().getCollection(uid);
-      },
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Expanded(
-              child: Center(
-                child: Icon(
-                  Icons.add_circle_outline_outlined,
-                  size: 100,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                bottom: 10,
-              ),
-            ),
-            Text(
-              'Add Container',
-              style: Theme.of(context).textTheme.headline6,
-              softWrap: false,
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                bottom: 7,
-              ),
-            ),
-            const Text(
-              '',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

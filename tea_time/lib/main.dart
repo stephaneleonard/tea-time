@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/core/theming/theming.dart';
 import 'package:tea_time/cubit/collection_cubit.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
+import 'package:tea_time/data/repository/collection_repository.dart';
 import 'package:tea_time/data/repository/user_repositiory.dart';
 import 'package:tea_time/views/BrewingScreen/brewing_screen.dart';
 import 'package:tea_time/views/MainScreen/main_screen.dart';
@@ -32,7 +33,8 @@ class _AppState extends State<App> {
           create: (BuildContext context) => UserCubit(IUserRepository()),
         ),
         BlocProvider<CollectionCubit>(
-          create: (BuildContext context) => CollectionCubit(),
+          create: (BuildContext context) =>
+              CollectionCubit(ICollectionRepository()),
         ),
       ],
       child: MaterialApp(

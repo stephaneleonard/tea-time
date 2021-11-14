@@ -29,16 +29,7 @@ class CollectionModel extends Collection {
   }
 }
 
-Future<Collection> fetchCollection(String id) async {
-  final CollectionReference<Object?> collections =
-      FirebaseFirestore.instance.collection('Collection');
-  final DocumentSnapshot<Map<String, dynamic>?> data = await collections
-      .doc(id)
-      .get() as DocumentSnapshot<Map<String, dynamic>?>;
-  return CollectionModel.fromJson(data.data() ?? <String, dynamic>{}, id);
-}
-
-Future<void> addABox(String uid) async {
+Future<void> addContainer(String uid) async {
   final CollectionReference<Object?> collections =
       FirebaseFirestore.instance.collection('Collection');
   await collections.doc(uid).update(<String, dynamic>{

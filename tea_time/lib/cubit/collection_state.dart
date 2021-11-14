@@ -1,16 +1,25 @@
 part of 'collection_cubit.dart';
 
 @immutable
-abstract class CollectionState {
+abstract class CollectionState extends Equatable {
   const CollectionState();
+
+  @override
+  List<Object?> get props => <Object?>[];
 }
 
 class CollectionInitial extends CollectionState {
   const CollectionInitial();
+
+  @override
+  List<Object?> get props => <Object?>[];
 }
 
 class CollectionLoading extends CollectionState {
   const CollectionLoading();
+
+  @override
+  List<Object?> get props => <Object?>[];
 }
 
 class CollectionLoaded extends CollectionState {
@@ -18,17 +27,13 @@ class CollectionLoaded extends CollectionState {
   final Collection collection;
 
   @override
-  // ignore: avoid_renaming_method_parameters
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-    return o is CollectionLoaded && o.collection == collection;
-  }
-
-  @override
-  int get hashCode => collection.hashCode;
+  List<Object?> get props => <Object?>[collection];
 }
 
 class CollectionError extends CollectionState {
   const CollectionError(this.message);
   final String message;
+
+  @override
+  List<Object?> get props => <Object?>[message];
 }
