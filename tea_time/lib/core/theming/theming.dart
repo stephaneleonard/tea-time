@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// light theme of the app
 ThemeData lightTheme = ThemeData(
@@ -6,11 +7,16 @@ ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.green,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   appBarTheme: const AppBarTheme(
+    iconTheme: IconThemeData(
+      color: Colors.black,
+    ),
+    systemOverlayStyle:
+        SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),
     backgroundColor: Colors.white,
     titleTextStyle: TextStyle(
       color: Colors.black,
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
+      fontSize: 26,
+      fontWeight: FontWeight.w400,
     ),
   ),
   textTheme: const TextTheme(
@@ -26,8 +32,8 @@ ThemeData darkTheme = ThemeData(
   appBarTheme: const AppBarTheme(
     titleTextStyle: TextStyle(
       color: Colors.white,
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
+      fontSize: 26,
+      fontWeight: FontWeight.w400,
     ),
   ),
   textTheme: const TextTheme(

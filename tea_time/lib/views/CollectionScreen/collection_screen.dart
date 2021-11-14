@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/cubit/collection_cubit.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
-import 'package:tea_time/data/model/screen_arguments.dart';
 import 'package:tea_time/domain/entities/tea_container.dart';
 
 class CollectionScreen extends StatelessWidget {
@@ -117,8 +116,7 @@ class FullContainerTile extends StatelessWidget {
         Navigator.pushNamed(
           context,
           '/brewing',
-          arguments:
-              ScreenArguments(index: index, id: container.reviewId ?? ''),
+          arguments: container.reviewId ?? '',
         );
       },
       child: Container(
