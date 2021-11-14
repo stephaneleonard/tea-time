@@ -1,18 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:tea_time/domain/entities/tea_container.dart';
 
 class Collection extends Equatable {
   const Collection({
-    required this.filled,
-    this.id,
-    this.name,
-    this.collectionId,
+    required this.id,
+    required this.owner,
+    required this.containers,
   }) : super();
 
-  final String? name;
-  final bool filled;
-  final String? collectionId;
-  final String? id;
+  final String? owner;
+  final String id;
+  final List<TeaContainer>? containers;
 
   @override
-  List<Object?> get props => <Object?>[filled, name, collectionId, id];
+  List<Object?> get props => <Object?>[owner, containers, id];
 }

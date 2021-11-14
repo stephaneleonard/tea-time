@@ -1,0 +1,20 @@
+{
+  "owner": "owner",
+  "containers": [
+    {
+      "name": "name",
+      "filled": true,
+      "type": "green",
+      "reviewId": "reviewId"
+    },
+    {
+      "name": "name",
+      "filled": true,
+      "type": "green",
+      "reviewId": "reviewId"
+    },
+    { "filled": false },
+    { "filled": false },
+    { "filled": false }
+  ]
+}

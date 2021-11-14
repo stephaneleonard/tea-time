@@ -106,6 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                       email: _email.text,
                       password: _password.text,
                     );
+                    if (!mounted) return;
                     Navigator.popAndPushNamed(context, '/main');
                   } on FirebaseAuthException catch (e) {
                     setState(() {

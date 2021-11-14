@@ -4,6 +4,7 @@ import 'package:tea_time/cubit/collection_cubit.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
 import 'package:tea_time/data/model/collection.dart';
 import 'package:tea_time/data/model/screen_arguments.dart';
+import 'package:tea_time/domain/entities/tea_container.dart';
 
 class CollectionScreen extends StatelessWidget {
   const CollectionScreen({Key? key}) : super(key: key);
@@ -74,14 +75,14 @@ class CollectionList extends StatelessWidget {
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
                 ),
-                itemCount: state.collection.containers.length,
+                itemCount: state.collection.containers?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
-                  if (state.collection.containers[index].name == null) {
+                  if (state.collection.containers![index].name == null) {
                     return EmptyContainerTile(index: index);
                   }
                   return FullContainerTile(
                     index: index,
-                    container: state.collection.containers[index],
+                    container: state.collection.containers![index],
                   );
                 },
               ),
@@ -97,14 +98,14 @@ class CollectionList extends StatelessWidget {
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
               ),
-              itemCount: state.collection.containers.length,
+              itemCount: state.collection.containers?.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
-                if (state.collection.containers[index].name == null) {
+                if (state.collection.containers![index].name == null) {
                   return EmptyContainerTile(index: index);
                 }
                 return FullContainerTile(
                   index: index,
-                  container: state.collection.containers[index],
+                  container: state.collection.containers![index],
                 );
               },
             ),

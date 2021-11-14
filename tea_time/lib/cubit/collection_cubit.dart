@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tea_time/data/model/collection.dart';
+import 'package:tea_time/domain/entities/collection.dart';
 
 part 'collection_state.dart';
 
