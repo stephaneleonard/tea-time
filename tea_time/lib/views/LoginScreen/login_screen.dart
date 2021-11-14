@@ -34,8 +34,8 @@ class _LoginFormState extends State<LoginForm> {
       return 'Please enter some text';
     }
     if (!RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(value)) {
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+    ).hasMatch(value)) {
       return 'Please enter valid email';
     }
   }
@@ -103,7 +103,9 @@ class _LoginFormState extends State<LoginForm> {
                 if (_formKey.currentState!.validate()) {
                   try {
                     await firebaseAuth.signInWithEmailAndPassword(
-                        email: _email.text, password: _password.text);
+                      email: _email.text,
+                      password: _password.text,
+                    );
                     Navigator.popAndPushNamed(context, '/main');
                   } on FirebaseAuthException catch (e) {
                     setState(() {
@@ -163,13 +165,13 @@ class _LoginFormState extends State<LoginForm> {
 }
 
 class CustomInputField extends StatelessWidget {
-  const CustomInputField(
-      {required this.controller,
-      required this.hint,
-      required this.validator,
-      this.obscureText = false,
-      Key? key})
-      : super(key: key);
+  const CustomInputField({
+    required this.controller,
+    required this.hint,
+    required this.validator,
+    this.obscureText = false,
+    Key? key,
+  }) : super(key: key);
 
   final TextEditingController controller;
   final String hint;
@@ -179,20 +181,22 @@ class CustomInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        child: TextFormField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              filled: true,
-              hintStyle: TextStyle(color: Colors.grey[800]),
-              hintText: hint,
-              fillColor: Colors.white70),
-          controller: controller,
-          obscureText: obscureText,
-          keyboardType: TextInputType.emailAddress,
-          validator: validator,
-        ));
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: TextFormField(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          filled: true,
+          hintStyle: TextStyle(color: Colors.grey[800]),
+          hintText: hint,
+          fillColor: Colors.white70,
+        ),
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: TextInputType.emailAddress,
+        validator: validator,
+      ),
+    );
   }
 }

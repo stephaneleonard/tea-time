@@ -9,5 +9,5 @@ class User extends Equatable {
   final String id;
 
   @override
-  List<Object> get props => [name];
+  List<Object?> get props => <Object?>[name, collectionId, id];
 }

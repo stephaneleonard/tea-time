@@ -1,8 +1,11 @@
 part of 'user_cubit.dart';
 
 @immutable
-abstract class UserState {
+abstract class UserState extends Equatable {
   const UserState();
+
+  @override
+  List<Object?> get props => <Object?>[];
 }
 
 class UserInitial extends UserState {
@@ -18,17 +21,13 @@ class UserLoaded extends UserState {
   final User user;
 
   @override
-  // ignore: avoid_renaming_method_parameters
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-    return o is UserLoaded && o.user == user;
-  }
-
-  @override
-  int get hashCode => user.hashCode;
+  List<Object?> get props => <Object?>[user];
 }
 
 class UserError extends UserState {
   const UserError(this.message);
   final String message;
+
+  @override
+  List<Object?> get props => <Object?>[message];
 }

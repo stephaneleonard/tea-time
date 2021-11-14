@@ -6,10 +6,10 @@ import 'package:tea_time/domain/entities/user.dart';
 
 import '../../fixtures/fixture_reader.dart';
 
-main() {
-  const tUserModel =
+void main() {
+  const UserModel tUserModel =
       UserModel(collectionId: 'collection', name: 'Stéphane', id: 'id');
-  const tUserModelNull =
+  const UserModel tUserModelNull =
       UserModel(collectionId: null, name: 'Stéphane', id: 'id');
 
   test(
@@ -25,9 +25,10 @@ main() {
       () async {
         // arrange
         final Map<String, dynamic> jsonMap =
-            json.decode(fixture('user_with_collection.json'));
+            json.decode(fixture('user_with_collection.json'))
+                as Map<String, dynamic>;
         // act
-        final result = UserModel.fromJson(jsonMap, 'id');
+        final UserModel result = UserModel.fromJson(jsonMap, 'id');
         // assert
         expect(result, tUserModel);
       },
@@ -37,9 +38,10 @@ main() {
       () async {
         // arrange
         final Map<String, dynamic> jsonMap =
-            json.decode(fixture('user_without_collection.json'));
+            json.decode(fixture('user_without_collection.json'))
+                as Map<String, dynamic>;
         // act
-        final result = UserModel.fromJson(jsonMap, 'id');
+        final UserModel result = UserModel.fromJson(jsonMap, 'id');
         // assert
         expect(result, tUserModelNull);
       },

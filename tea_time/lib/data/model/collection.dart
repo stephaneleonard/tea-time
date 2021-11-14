@@ -8,8 +8,8 @@ class Collection {
     json['containers'].forEach(
       (dynamic mapValue) {
         containers.add(
-          TeaContainer.fromFirebase(
-            Map<String, dynamic>.from(mapValue),
+          TeaContainer.fromJson(
+            Map<String, dynamic>.from(mapValue as Map<String, dynamic>),
           ),
         );
       },
@@ -21,10 +21,13 @@ class Collection {
 }
 
 class TeaContainer {
-  TeaContainer(
-      {required this.name, required this.type, required this.reviewId});
+  TeaContainer({
+    required this.name,
+    required this.type,
+    required this.reviewId,
+  });
 
-  TeaContainer.fromFirebase(Map<String, dynamic> data) {
+  TeaContainer.fromJson(Map<String, dynamic> data) {
     name = data['name'] as String?;
     type = data['type'] as String?;
     reviewId = data['reviewId'] as String?;
@@ -36,20 +39,20 @@ class TeaContainer {
 }
 
 Future<Collection> fetchCollection(String id) async {
-  CollectionReference<Object?> collections =
+  final CollectionReference<Object?> collections =
       FirebaseFirestore.instance.collection('Collection');
-  DocumentSnapshot<Map<String, dynamic>?> data = await collections.doc(id).get()
-      as DocumentSnapshot<Map<String, dynamic>?>;
-  return Collection.fromJson(data.data() ?? {});
+  final DocumentSnapshot<Map<String, dynamic>?> data = await collections
+      .doc(id)
+      .get() as DocumentSnapshot<Map<String, dynamic>?>;
+  return Collection.fromJson(data.data() ?? <String, dynamic>{});
 }
 
-
 Future<void> addABox(String uid) async {
-  CollectionReference<Object?> collections =
+  final CollectionReference<Object?> collections =
       FirebaseFirestore.instance.collection('Collection');
-  await collections.doc(uid).update({
-    'containers': FieldValue.arrayUnion([
-      {'name': null, 'type': null}
+  await collections.doc(uid).update(<String, dynamic>{
+    'containers': FieldValue.arrayUnion(<Map<String, dynamic>>[
+      <String, dynamic>{'filled': false}
     ])
   });
 }

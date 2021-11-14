@@ -11,42 +11,42 @@ class CollectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserCubit, UserState>(
-        builder: (BuildContext context, UserState state) {
-      if (state is UserLoading) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-      if (state is UserLoaded) {
-        if (state.user.collectionId != null) {
-          return BlocProvider<CollectionCubit>(
-            create: (BuildContext context) => CollectionCubit(),
-            child: CollectionList(
+      builder: (BuildContext context, UserState state) {
+        if (state is UserLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is UserLoaded) {
+          if (state.user.collectionId != null) {
+            return CollectionList(
               collectionId: state.user.collectionId ?? '',
               userId: state.user.id,
-            ),
+            );
+          }
+          return const Center(
+            child: Text('no collection linked to this account'),
+          );
+        }
+        if (state is UserError) {
+          return Center(
+            child: Text(state.message),
           );
         }
         return const Center(
-          child: Text('no collection linked to this account'),
+          child: Text('error'),
         );
-      }
-      if (state is UserError) {
-        return Center(
-          child: Text(state.message),
-        );
-      }
-      return const Center(
-        child: Text('error'),
-      );
-    });
+      },
+    );
   }
 }
 
 class CollectionList extends StatelessWidget {
-  const CollectionList(
-      {required this.collectionId, required this.userId, Key? key})
-      : super(key: key);
+  const CollectionList({
+    required this.collectionId,
+    required this.userId,
+    Key? key,
+  }) : super(key: key);
 
   final String collectionId;
   final String userId;
@@ -55,75 +55,80 @@ class CollectionList extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<CollectionCubit>().getCollection(collectionId);
     return BlocBuilder<CollectionCubit, CollectionState>(
-        builder: (BuildContext context, CollectionState state) {
-      if (state is CollectionLoading) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-      if (state is CollectionLoaded) {
-        if (userId == state.collection.owner) {
-          return Container(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-            child: GridView.builder(
-                physics: const BouncingScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20),
-                itemCount: state.collection.containers.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index < state.collection.containers.length) {
-                    if (state.collection.containers[index].name == null) {
-                      return EmptyContainerTile(index: index);
-                    }
-                    return FullContainerTile(
-                        index: index,
-                        container: state.collection.containers[index]);
-                  }
-                  return AddContainerTile(
-                    uid: collectionId,
-                  );
-                }),
+      builder: (BuildContext context, CollectionState state) {
+        if (state is CollectionLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         }
-        return Container(
-          padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-          child: GridView.builder(
-              physics: const BouncingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        if (state is CollectionLoaded) {
+          if (userId == state.collection.owner) {
+            return Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: GridView.builder(
+                padding: const EdgeInsets.only(top: 30),
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   childAspectRatio: 0.8,
                   crossAxisSpacing: 20,
-                  mainAxisSpacing: 20),
+                  mainAxisSpacing: 20,
+                ),
+                itemCount: state.collection.containers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  if (state.collection.containers[index].name == null) {
+                    return EmptyContainerTile(index: index);
+                  }
+                  return FullContainerTile(
+                    index: index,
+                    container: state.collection.containers[index],
+                  );
+                },
+              ),
+            );
+          }
+          return Container(
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+            child: GridView.builder(
+              physics: const BouncingScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 0.8,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+              ),
               itemCount: state.collection.containers.length,
               itemBuilder: (BuildContext context, int index) {
                 if (state.collection.containers[index].name == null) {
                   return EmptyContainerTile(index: index);
                 }
                 return FullContainerTile(
-                    index: index,
-                    container: state.collection.containers[index]);
-              }),
+                  index: index,
+                  container: state.collection.containers[index],
+                );
+              },
+            ),
+          );
+        }
+        if (state is CollectionError) {
+          return Center(
+            child: Text('collection error: ${state.message}'),
+          );
+        }
+        return const Center(
+          child: Text('Unexpected error'),
         );
-      }
-      if (state is CollectionError) {
-        return Center(
-          child: Text('collection error: ${state.message}'),
-        );
-      }
-      return const Center(
-        child: Text('Unexpected error'),
-      );
-    });
+      },
+    );
   }
 }
 
 class FullContainerTile extends StatelessWidget {
-  const FullContainerTile(
-      {required this.index, required this.container, Key? key})
-      : super(key: key);
+  const FullContainerTile({
+    required this.index,
+    required this.container,
+    Key? key,
+  }) : super(key: key);
 
   final TeaContainer container;
   final int index;
@@ -258,7 +263,6 @@ class AddContainerTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Expanded(

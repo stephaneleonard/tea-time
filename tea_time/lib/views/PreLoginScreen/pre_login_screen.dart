@@ -9,7 +9,7 @@ class PreLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User? user = firebaseAuth.currentUser;
+    final User? user = firebaseAuth.currentUser;
     if (user != null) {
       return const MainScreen();
     }

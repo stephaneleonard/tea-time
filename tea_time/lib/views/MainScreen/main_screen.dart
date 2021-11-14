@@ -37,14 +37,33 @@ class _MainScreenState extends State<MainScreen> {
         selectedIndex: selectedIndex,
         onItemTap: onItemTap,
       ),
+      floatingActionButton: selectedIndex == 0
+          ? FloatingActionButton.extended(
+              backgroundColor: Colors.green,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              onPressed: () {},
+              icon: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              label: const Text(
+                'Add Container',
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          : null,
     );
   }
 }
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar(
-      {required this.selectedIndex, required this.onItemTap, Key? key})
-      : super(key: key);
+  const CustomBottomNavigationBar({
+    required this.selectedIndex,
+    required this.onItemTap,
+    Key? key,
+  }) : super(key: key);
 
   final int selectedIndex;
   final Function(int) onItemTap;
@@ -54,64 +73,22 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: selectedIndex,
       onTap: onItemTap,
-      selectedItemColor: Colors.green,
+      selectedItemColor: Colors.green.shade300,
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(Icons.book_outlined), label: 'Collection'),
+          icon: Icon(Icons.book_outlined),
+          label: 'Collection',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.local_cafe_outlined), label: 'Discover'),
+          icon: Icon(Icons.local_cafe_outlined),
+          label: 'Discover',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined), label: 'Profile'),
+          icon: Icon(Icons.account_circle_outlined),
+          label: 'Profile',
+        ),
       ],
     );
   }
 }
-
-class Testbloc extends StatelessWidget {
-  const Testbloc({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    context.read<UserCubit>().getUserInfos();
-    return BlocBuilder<UserCubit, UserState>(
-      builder: (context, state) {
-        if (state is UserLoaded) {
-          return Center(child: Text(state.user.name));
-        }
-        if (state is UserLoading) {
-          return const Text('loading');
-        }
-        if (state is UserError) {
-          Text(state.message);
-        }
-        return const Text('error');
-      },
-    );
-  }
-}
-
-// Column(
-//         children: <Widget>[
-//           BlocBuilder<UserCubit, UserState>(
-//               builder: (BuildContext context, UserState state) {
-//             if (state is UserLoading) {
-//               return const Text('loading');
-//             }
-//             if (state is UserLoaded) {
-//               return Text(state.user.name);
-//             }
-//             if (state is UserError) {
-//               return const Text('error');
-//             }
-//             return const Text('error');
-//           }),
-//           TextButton(
-//             onPressed: () async {
-//               await firebaseAuth.signOut();
-//               Navigator.popAndPushNamed(context, '/login');
-//             },
-//             child: const Text('sign out'),
-//           ),
-//         ],
-//       ),
