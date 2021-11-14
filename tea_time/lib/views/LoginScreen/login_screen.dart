@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/core/theming/auth/auth.dart';
+import 'package:tea_time/cubit/user_cubit.dart';
 import 'package:tea_time/widgets/custom_app_bar.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -107,6 +109,7 @@ class _LoginFormState extends State<LoginForm> {
                       password: _password.text,
                     );
                     if (!mounted) return;
+                    context.read<UserCubit>().getUserInfos();
                     Navigator.popAndPushNamed(context, '/main');
                   } on FirebaseAuthException catch (e) {
                     setState(() {

@@ -62,34 +62,10 @@ class CollectionList extends StatelessWidget {
           );
         }
         if (state is CollectionLoaded) {
-          if (userId == state.collection.owner) {
-            return Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: GridView.builder(
-                padding: const EdgeInsets.only(top: 30),
-                physics: const BouncingScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
-                  childAspectRatio: 0.8,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: state.collection.containers?.length ?? 0,
-                itemBuilder: (BuildContext context, int index) {
-                  if (state.collection.containers![index].name == null) {
-                    return EmptyContainerTile(index: index);
-                  }
-                  return FullContainerTile(
-                    index: index,
-                    container: state.collection.containers![index],
-                  );
-                },
-              ),
-            );
-          }
           return Container(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: GridView.builder(
+              padding: const EdgeInsets.only(top: 30),
               physics: const BouncingScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
