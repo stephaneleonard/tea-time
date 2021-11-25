@@ -11,6 +11,12 @@ class MockuserRepository implements UserRepository {
   Future<User> fetchUser() {
     return Future<User>.delayed(const Duration(milliseconds: 2), () => user);
   }
+
+  @override
+  Future<void> createUser(String uid, String name) {
+    // TODO: implement createUser
+    throw UnimplementedError();
+  }
 }
 
 void main() {

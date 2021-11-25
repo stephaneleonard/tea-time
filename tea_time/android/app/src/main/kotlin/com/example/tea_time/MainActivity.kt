@@ -1,4 +1,4 @@
-package com.example.tea_time
+package com.rtc_lab.tea_time
 
 import io.flutter.embedding.android.FlutterActivity
 

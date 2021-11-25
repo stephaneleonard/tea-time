@@ -18,4 +18,14 @@ class IUserRepository implements UserRepository {
     }
     return UserModel.fromJson(data.docs[0].data() ?? <String, dynamic>{}, id);
   }
+
+  @override
+  Future<void> createUser(String uid, String name) async {
+    final CollectionReference<Object?> users =
+        FirebaseFirestore.instance.collection('User');
+    await users.add(<String, dynamic>{
+      'UID': uid,
+      'name': name,
+    });
+  }
 }

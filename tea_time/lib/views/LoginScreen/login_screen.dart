@@ -114,10 +114,12 @@ class _LoginFormState extends State<LoginForm> {
                   } on FirebaseAuthException catch (e) {
                     setState(() {
                       errorMessage = e.message ?? 'Unexpected error';
-                      isLoading = false;
                     });
                   }
                 }
+                setState(() {
+                  isLoading = false;
+                });
               },
               child: isLoading
                   ? const CircularProgressIndicator(
@@ -162,6 +164,15 @@ class _LoginFormState extends State<LoginForm> {
           //         : const Text('Sign up'),
           //   ),
           // ),
+
+          Center(
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/signin');
+              },
+              child: const Text('Sign in'),
+            ),
+          )
         ],
       ),
     );
@@ -192,9 +203,7 @@ class CustomInputField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           filled: true,
-          hintStyle: TextStyle(color: Colors.grey[800]),
           hintText: hint,
-          fillColor: Colors.white70,
         ),
         controller: controller,
         obscureText: obscureText,
