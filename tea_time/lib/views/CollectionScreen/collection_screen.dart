@@ -23,8 +23,36 @@ class CollectionScreen extends StatelessWidget {
               userId: state.user.id,
             );
           }
-          return const Center(
-            child: Text('no collection linked to this account'),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: <Widget>[
+                const Padding(padding: EdgeInsets.only(top: 40)),
+                const Text(
+                  'No collection linked to this account',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                ),
+                const Padding(padding: EdgeInsets.only(bottom: 30)),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(
+                        double.infinity,
+                        50,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/collection_creation');
+                    },
+                    child: const Text('Create a Collection'),
+                  ),
+                ),
+              ],
+            ),
           );
         }
         if (state is UserError) {

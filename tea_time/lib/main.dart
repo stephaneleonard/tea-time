@@ -9,6 +9,7 @@ import 'package:tea_time/cubit/user_cubit.dart';
 import 'package:tea_time/data/repository/collection_repository.dart';
 import 'package:tea_time/data/repository/user_repositiory.dart';
 import 'package:tea_time/views/BrewingScreen/brewing_screen.dart';
+import 'package:tea_time/views/CollectionCreation/collection_creation.dart';
 import 'package:tea_time/views/MainScreen/main_screen.dart';
 import 'package:tea_time/views/PreLoginScreen/pre_login_screen.dart';
 import 'package:tea_time/views/SignInScreen/sign_in_screen.dart';
@@ -56,6 +57,8 @@ class _AppState extends State<App> {
           '/signin': (BuildContext context) => const SignInScreen(),
           '/main': (BuildContext context) => const MainScreen(),
           '/brewing': (BuildContext context) => const BrewingScreen(),
+          '/collection_creation': (BuildContext context) =>
+              const CollectionCreationScreen(),
         },
       ),
     );
