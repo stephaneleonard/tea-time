@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
 import 'package:tea_time/data/repository/collection_repository_impl.dart';
-import 'package:tea_time/data/repository/user_repositiory_impl.dart';
+import 'package:tea_time/data/repository/user_repository_impl.dart';
 import 'package:tea_time/views/LoginScreen/login_screen.dart';
 import 'package:tea_time/widgets/custom_app_bar.dart';
 

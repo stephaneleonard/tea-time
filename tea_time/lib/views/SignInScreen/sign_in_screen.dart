@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tea_time/core/theming/auth/auth.dart';
-import 'package:tea_time/data/repository/user_repositiory_impl.dart';
+import 'package:tea_time/data/repository/user_repository_impl.dart';
 import 'package:tea_time/views/LoginScreen/login_screen.dart';
 import 'package:tea_time/views/SignInScreen/sign_in_button.dart';
 import 'package:tea_time/widgets/custom_app_bar.dart';
