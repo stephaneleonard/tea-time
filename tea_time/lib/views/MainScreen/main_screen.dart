@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> pages = <Widget>[
     const CollectionScreen(),
     const DiscoverScreen(),
-    const ProfileScreen()
+    const ProfileScreen(),
   ];
 
   int selectedIndex = 0;
@@ -47,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
                 .read<CollectionCubit>()
                 .getCollection(state.user.collectionId ?? '');
           }
+
           return Scaffold(
             appBar: const CustomAppBar(title: 'Tea Time'),
             body: pages[selectedIndex],
@@ -62,6 +63,7 @@ class _MainScreenState extends State<MainScreen> {
                 : null,
           );
         }
+
         return Scaffold(
           appBar: const CustomAppBar(title: 'Tea Time'),
           body: Center(
@@ -95,18 +97,19 @@ class CustomFloatingActionButton extends StatelessWidget {
     if (collectionId == null) {
       return const SizedBox.shrink();
     }
+
     return BlocBuilder<CollectionCubit, CollectionState>(
       builder: (BuildContext context, CollectionState state) {
         if (state is CollectionLoaded) {
           if (state.collection.owner != userId) {
             return const SizedBox.shrink();
           }
+
           return FloatingActionButton.extended(
             backgroundColor: Colors.green,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            onPressed: () {},
             icon: const Icon(
               Icons.add,
               color: Colors.white,
@@ -115,8 +118,13 @@ class CustomFloatingActionButton extends StatelessWidget {
               'Add Container',
               style: TextStyle(color: Colors.white),
             ),
+            onPressed: () {
+              // TODO implement
+              debugPrint('pushed');
+            },
           );
         }
+
         return const SizedBox.shrink();
       },
     );

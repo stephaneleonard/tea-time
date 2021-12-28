@@ -1,16 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tea_time/data/model/user.dart';
+import 'package:tea_time/data/model/user_model.dart';
 import 'package:tea_time/domain/entities/user.dart';
 
 import '../../fixtures/fixture_reader.dart';
 
 void main() {
-  const UserModel tUserModel =
-      UserModel(collectionId: 'collection', name: 'Stéphane', id: 'id');
-  const UserModel tUserModelNull =
-      UserModel(collectionId: null, name: 'Stéphane', id: 'id');
+  const UserModel tUserModel = UserModel(
+    collectionId: 'collection',
+    accountId: 'test',
+    name: 'Stéphane',
+    id: 'id',
+  );
+  const UserModel tUserModelNull = UserModel(
+    collectionId: null,
+    accountId: 'test',
+    name: 'Stéphane',
+    id: 'id',
+  );
 
   test(
     'User Model should extend User',
@@ -28,7 +36,7 @@ void main() {
             json.decode(fixture('user_with_collection.json'))
                 as Map<String, dynamic>;
         // act
-        final UserModel result = UserModel.fromJson(jsonMap, 'id');
+        final UserModel result = UserModel.fromJson(jsonMap, 'id', 'id');
         // assert
         expect(result, tUserModel);
       },
@@ -41,7 +49,7 @@ void main() {
             json.decode(fixture('user_without_collection.json'))
                 as Map<String, dynamic>;
         // act
-        final UserModel result = UserModel.fromJson(jsonMap, 'id');
+        final UserModel result = UserModel.fromJson(jsonMap, 'id', 'id');
         // assert
         expect(result, tUserModelNull);
       },

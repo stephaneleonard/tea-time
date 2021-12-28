@@ -16,6 +16,17 @@ class TeaReview extends Equatable {
   final int temp;
   final String type;
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['origin'] = this.origin;
+    data['seconds'] = this.seconds;
+    data['temp'] = this.temp;
+    data['type'] = this.type;
+
+    return data;
+  }
+
   @override
   List<Object?> get props => <Object?>[name, origin, seconds, temp, type];
 }

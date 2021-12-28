@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tea_time/data/model/tea_review.dart';
+import 'package:tea_time/data/model/tea_review_model.dart';
 import 'package:tea_time/domain/entities/tea_review.dart';
 
 import '../../fixtures/fixture_reader.dart';

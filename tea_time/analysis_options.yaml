@@ -1,6 +1,6 @@
 include: package:lint/analysis_options.yaml
 
-# Not happy with the default? Customize the rules depending on your needs. 
+# Not happy with the default? Customize the rules depending on your needs.
 # Here are some examples:
 linter:
   rules:
@@ -23,10 +23,66 @@ linter:
     always_put_required_named_parameters_first: true
 
     # Util classes are awesome!
-    avoid_classes_with_only_static_members: false
+    avoid_classes_with_only_static_members: true
 
     always_use_package_imports: true
 
     use_build_context_synchronously: true
 
     depend_on_referenced_packages: false
+    
+analyzer:
+  plugins:
+    - dart_code_metrics
+
+dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    maximum-nesting-level: 5
+    number-of-parameters: 5
+    source-lines-of-code: 50
+  metrics-exclude:
+    - test/**
+  rules:
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - no-object-declaration
+    - no-equal-then-else
+    - no-equal-arguments
+    - no-magic-number
+    - always-remove-listener
+    - avoid-returning-widgets
+    - avoid-unnecessary-setstate
+    - avoid-wrapping-in-padding
+    - avoid-non-null-assertion
+    - avoid-throw-in-catch-block
+    - avoid-unnecessary-type-assertions
+    - prefer-trailing-comma
+    - prefer-conditional-expressions
+    - prefer-const-border-radius
+    - prefer-extracting-callbacks
+    - prefer-single-widget-per-file
+    - prefer-first
+    - prefer-last
+    - prefer-correct-identifier-length:
+        exceptions: [ 'id', 'uid' ]
+        max-identifier-length: 30
+        min-identifier-length: 4
+    - prefer-match-file-name:
+        exclude:
+          - test/**
+    - prefer-correct-type-name:
+        excluded: [ 'exampleExclude' ]
+        min-length: 3
+        max-length: 40
+    - avoid-ignoring-return-values
+    - avoid-late-keyword
+    - avoid-nested-conditional-expressions:
+        acceptable-level: 2
+    - binary-expression-operand-order
+    - double-literal-format
+    - member-ordering-extended

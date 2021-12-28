@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tea_time/cubit/teareview_cubit.dart';
-import 'package:tea_time/data/model/tea_review.dart';
+import 'package:tea_time/data/model/tea_review_model.dart';
 import 'package:tea_time/domain/entities/tea_review.dart';
 import 'package:tea_time/domain/repository/tea_review_repository.dart';
 

@@ -4,7 +4,7 @@ import 'package:tea_time/cubit/user_cubit.dart';
 import 'package:tea_time/domain/entities/user.dart';
 import 'package:tea_time/domain/repository/user_repository.dart';
 
-const User user = User(id: 'id', name: 'name');
+const User user = User(id: 'id', accountId: '', name: 'name');
 
 class MockuserRepository implements UserRepository {
   @override
@@ -15,6 +15,12 @@ class MockuserRepository implements UserRepository {
   @override
   Future<void> createUser(String uid, String name) {
     // TODO: implement createUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> addCollection(String uid, String id) {
+    // TODO: implement addCollection
     throw UnimplementedError();
   }
 }

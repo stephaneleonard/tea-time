@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/core/theming/auth/auth.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
@@ -53,6 +52,7 @@ class _LoginFormState extends State<LoginForm> {
     //   at least one uppercase letter, one lowercase letter,
     //   one number and one special character:''';
     // }
+
     return null;
   }
 
@@ -172,7 +172,7 @@ class _LoginFormState extends State<LoginForm> {
               },
               child: const Text('Sign in'),
             ),
-          )
+          ),
         ],
       ),
     );

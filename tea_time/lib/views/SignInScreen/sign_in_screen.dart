@@ -1,18 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tea_time/core/theming/auth/auth.dart';
-import 'package:tea_time/data/repository/user_repositiory.dart';
+import 'package:tea_time/data/repository/user_repositiory_impl.dart';
 import 'package:tea_time/views/LoginScreen/login_screen.dart';
+import 'package:tea_time/views/SignInScreen/sign_in_button.dart';
 import 'package:tea_time/widgets/custom_app_bar.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const CustomAppBar(title: 'Tea Time'),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: const SignInForm(),
+        ),
+      ),
+    );
+  }
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class SignInForm extends StatefulWidget {
+  const SignInForm({Key? key}) : super(key: key);
+
+  @override
+  _SignInFormState createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -50,6 +68,7 @@ class _SignInScreenState extends State<SignInScreen> {
     if (value != _passwordVerificationController.text) {
       return 'Not the same';
     }
+
     return null;
   }
 
@@ -63,114 +82,85 @@ class _SignInScreenState extends State<SignInScreen> {
     if (value != _passwordController.text) {
       return 'Not the same';
     }
+
     return null;
+  }
+
+  Future<void> signIn() async {
+    setState(() {
+      isLoading = true;
+    });
+    if (_formKey.currentState!.validate()) {
+      try {
+        // create account
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+        final String id = firebaseAuth.currentUser!.uid;
+        await UserRepositoryImpl().createUser(id, _nameController.text);
+
+        if (!mounted) return;
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/main',
+          (Route<dynamic> route) => false,
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          setState(() {
+            errorMessage = 'The account already exists for that email.';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          errorMessage = e.toString();
+        });
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(title: 'Tea Time'),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(top: 20),
-                ),
-                CustomInputField(
-                  controller: _emailController,
-                  hint: 'Email',
-                  validator: emailValidator,
-                ),
-                CustomInputField(
-                  controller: _nameController,
-                  hint: 'Name',
-                  validator: nameValidator,
-                ),
-                CustomInputField(
-                  controller: _passwordController,
-                  hint: 'Password',
-                  validator: passwordValidator,
-                  obscureText: true,
-                ),
-                CustomInputField(
-                  controller: _passwordVerificationController,
-                  hint: 'Confirm password',
-                  validator: passwordVerificationValidator,
-                  obscureText: true,
-                ),
-                Center(
-                  child: Text(
-                    errorMessage,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(
-                        double.infinity,
-                        50,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      if (_formKey.currentState!.validate()) {
-                        try {
-                          // create account
-
-                          await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          );
-                          final String id = firebaseAuth.currentUser!.uid;
-                          await IUserRepository()
-                              .createUser(id, _nameController.text);
-
-                          if (!mounted) return;
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/main',
-                            (Route<dynamic> route) => false,
-                          );
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                          } else if (e.code == 'email-already-in-use') {
-                            setState(() {
-                              errorMessage =
-                                  'The account already exists for that email.';
-                            });
-                          }
-                        } catch (e) {
-                          setState(() {
-                            errorMessage = e.toString();
-                          });
-                        }
-                      }
-                      setState(() {
-                        isLoading = false;
-                      });
-                    },
-                    child: isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text('login'),
-                  ),
-                ),
-              ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          const Padding(
+            padding: EdgeInsets.only(top: 20),
+          ),
+          CustomInputField(
+            controller: _emailController,
+            hint: 'Email',
+            validator: emailValidator,
+          ),
+          CustomInputField(
+            controller: _nameController,
+            hint: 'Name',
+            validator: nameValidator,
+          ),
+          CustomInputField(
+            controller: _passwordController,
+            hint: 'Password',
+            validator: passwordValidator,
+            obscureText: true,
+          ),
+          CustomInputField(
+            controller: _passwordVerificationController,
+            hint: 'Confirm password',
+            validator: passwordVerificationValidator,
+            obscureText: true,
+          ),
+          Center(
+            child: Text(
+              errorMessage,
+              style: const TextStyle(color: Colors.red),
             ),
           ),
-        ),
+          SignInButton(isLoading: isLoading, func: signIn),
+        ],
       ),
     );
   }

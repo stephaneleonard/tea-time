@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/cubit/teareview_cubit.dart';
-import 'package:tea_time/data/repository/tea_review_repository.dart';
+import 'package:tea_time/data/repository/tea_review_repository_impl.dart';
 import 'package:tea_time/widgets/custom_app_bar.dart';
 
 class BrewingScreen extends StatelessWidget {
@@ -10,13 +10,14 @@ class BrewingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String id = ModalRoute.of(context)!.settings.arguments! as String;
+
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'Brewing',
       ),
       body: BlocProvider<TeaReviewCubit>(
         create: (BuildContext context) =>
-            TeaReviewCubit(ITeareviewRepository()),
+            TeaReviewCubit(TeaReviewRepositoryImpl()),
         child: TeaInfos(
           reviewId: id,
         ),
@@ -37,12 +38,14 @@ class TeaInfos extends StatelessWidget {
   String convertSecondsToString(int seconds) {
     final int min = seconds ~/ 60;
     final int sec = seconds % 60;
+
     return '$min:$sec';
   }
 
   @override
   Widget build(BuildContext context) {
     context.read<TeaReviewCubit>().getTeaReviewById(reviewId);
+
     return BlocBuilder<TeaReviewCubit, TeaReviewState>(
       builder: (BuildContext context, TeaReviewState state) {
         if (state is TeaReviewLoading) {
@@ -94,6 +97,7 @@ class TeaInfos extends StatelessWidget {
             child: Text(state.message),
           );
         }
+
         return const Center(
           child: Text('error'),
         );
@@ -106,21 +110,30 @@ class IconAndInt extends StatelessWidget {
   const IconAndInt({
     required this.value,
     required this.icon,
+    this.color = Colors.black,
     Key? key,
   }) : super(key: key);
 
   final String value;
   final IconData icon;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Icon(icon),
+        Icon(
+          icon,
+          color: color,
+        ),
         const Padding(padding: EdgeInsets.only(left: 5)),
         Text(
           value,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: color,
+          ),
         ),
       ],
     );

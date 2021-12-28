@@ -19,8 +19,16 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w400,
     ),
   ),
-  textTheme: const TextTheme(
-    headline3: TextStyle(color: Colors.black),
+  textTheme: TextTheme(
+    headline5: TextStyle(
+      color: Colors.grey.shade600,
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+    ),
+    headline6: const TextStyle(
+      color: Colors.black,
+      fontSize: 18,
+    ),
   ),
 );
 
@@ -33,10 +41,18 @@ ThemeData darkTheme = ThemeData(
     titleTextStyle: TextStyle(
       color: Colors.white,
       fontSize: 26,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w600,
     ),
   ),
-  textTheme: const TextTheme(
-    headline3: TextStyle(color: Colors.white),
+  textTheme: TextTheme(
+    headline5: TextStyle(
+      color: Colors.grey.shade400,
+      fontSize: 16,
+      fontWeight: FontWeight.w300,
+    ),
+    headline6: const TextStyle(
+      color: Colors.white,
+      fontSize: 18,
+    ),
   ),
 );

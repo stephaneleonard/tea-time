@@ -5,8 +5,12 @@ import 'package:tea_time/domain/entities/collection.dart';
 import 'package:tea_time/domain/entities/tea_container.dart';
 import 'package:tea_time/domain/repository/collection_repository.dart';
 
-const Collection collection =
-    Collection(id: 'id', owner: 'owner', containers: <TeaContainer>[]);
+const Collection collection = Collection(
+  id: 'id',
+  owner: 'owner',
+  name: '',
+  containers: <TeaContainer>[],
+);
 
 class MockCollectionRepository implements CollectionRepository {
   @override
@@ -21,6 +25,12 @@ class MockCollectionRepository implements CollectionRepository {
       const Duration(milliseconds: 1),
       () => collection,
     );
+  }
+
+  @override
+  Future<String> createCollection(String id, String name) {
+    // TODO: implement createCollection
+    throw UnimplementedError();
   }
 }
 

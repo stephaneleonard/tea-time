@@ -6,10 +6,12 @@ class Collection extends Equatable {
     required this.id,
     required this.owner,
     required this.containers,
+    required this.name,
   }) : super();
 
   final String? owner;
   final String id;
+  final String name;
   final List<TeaContainer>? containers;
 
   @override

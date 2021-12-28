@@ -23,6 +23,7 @@ class CollectionScreen extends StatelessWidget {
               userId: state.user.id,
             );
           }
+
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -46,7 +47,11 @@ class CollectionScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/collection_creation');
+                      Navigator.pushNamed(
+                        context,
+                        '/collection_creation',
+                        arguments: state.user.accountId,
+                      );
                     },
                     child: const Text('Create a Collection'),
                   ),
@@ -60,6 +65,7 @@ class CollectionScreen extends StatelessWidget {
             child: Text(state.message),
           );
         }
+
         return const Center(
           child: Text('error'),
         );
@@ -81,6 +87,7 @@ class CollectionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<CollectionCubit>().getCollection(collectionId);
+
     return BlocBuilder<CollectionCubit, CollectionState>(
       builder: (BuildContext context, CollectionState state) {
         if (state is CollectionLoading) {
@@ -89,28 +96,49 @@ class CollectionList extends StatelessWidget {
           );
         }
         if (state is CollectionLoaded) {
-          return Container(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: GridView.builder(
-              padding: const EdgeInsets.only(top: 30),
-              physics: const BouncingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 0.8,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                      child: Text(
+                        state.collection.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              itemCount: state.collection.containers?.length ?? 0,
-              itemBuilder: (BuildContext context, int index) {
-                if (state.collection.containers![index].name == null) {
-                  return EmptyContainerTile(index: index);
-                }
-                return FullContainerTile(
-                  index: index,
-                  container: state.collection.containers![index],
-                );
-              },
-            ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                sliver: SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 0.8,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      if (state.collection.containers![index].name == null) {
+                        return EmptyContainerTile(index: index);
+                      }
+
+                      return FullContainerTile(
+                        index: index,
+                        container: state.collection.containers![index],
+                      );
+                    },
+                    childCount: state.collection.containers?.length ?? 0,
+                  ),
+                ),
+              ),
+            ],
           );
         }
         if (state is CollectionError) {
@@ -118,6 +146,7 @@ class CollectionList extends StatelessWidget {
             child: Text('collection error: ${state.message}'),
           );
         }
+
         return const Center(
           child: Text('Unexpected error'),
         );
@@ -150,6 +179,9 @@ class FullContainerTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.grey.shade200
+              : Colors.grey.shade800,
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -161,6 +193,67 @@ class FullContainerTile extends StatelessWidget {
               child: Center(
                 child: Image.asset(
                   'assets/images/${container.type}.png',
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                bottom: 5,
+              ),
+            ),
+            Text(
+              'Box: ${index + 1}',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                bottom: 7,
+              ),
+            ),
+            Text(
+              container.name ?? '',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              style: Theme.of(context).textTheme.headline5,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EmptyContainerTile extends StatelessWidget {
+  const EmptyContainerTile({required this.index, Key? key}) : super(key: key);
+
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/create_tea');
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.grey.shade200
+              : Colors.grey.shade800,
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: Icon(
+                  Icons.edit,
+                  size: 50,
+                  color: Colors.grey.shade600,
                 ),
               ),
             ),
@@ -179,7 +272,7 @@ class FullContainerTile extends StatelessWidget {
               ),
             ),
             Text(
-              container.name ?? '',
+              'Empty',
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               softWrap: false,
@@ -191,57 +284,6 @@ class FullContainerTile extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class EmptyContainerTile extends StatelessWidget {
-  const EmptyContainerTile({required this.index, Key? key}) : super(key: key);
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            child: Container(),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              bottom: 10,
-            ),
-          ),
-          Text(
-            'Box: ${index + 1}',
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(
-              bottom: 7,
-            ),
-          ),
-          Text(
-            'Empty',
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            softWrap: false,
-            style: TextStyle(
-              color: Colors.grey.shade600,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
       ),
     );
   }

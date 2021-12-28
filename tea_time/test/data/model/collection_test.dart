@@ -1,17 +1,22 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tea_time/data/model/collection.dart';
-import 'package:tea_time/data/model/tea_container.dart';
+import 'package:tea_time/data/model/collection_model.dart';
+import 'package:tea_time/data/model/tea_container_model.dart';
 import 'package:tea_time/domain/entities/collection.dart';
 import 'package:tea_time/domain/entities/tea_container.dart';
 
 import '../../fixtures/fixture_reader.dart';
 
 void main() {
-  const CollectionModel collectionModel =
-      CollectionModel(containers: <TeaContainer>[], owner: 'owner', id: 'id');
+  const CollectionModel collectionModel = CollectionModel(
+    containers: <TeaContainer>[],
+    name: 'name',
+    owner: 'owner',
+    id: 'id',
+  );
   const CollectionModel collectionModelWithContainer = CollectionModel(
+    name: 'name',
     containers: <TeaContainer>[
       TeaContainerModel(
         name: 'name',
