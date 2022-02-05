@@ -15,11 +15,12 @@ class TeaReviewRepositoryImpl implements TeaReviewrepository {
     return TeaReviewModel.fromJson(data.data() ?? <String, dynamic>{}, id);
   }
 
-  Future<void> createTeaReview(TeaReview teaReview) async {
-    // Create review
-    final DocumentReference<Object?> _review = await teaReviews.add(
+  Future<String> createTeaReview(TeaReview teaReview) async {
+    final DocumentReference<Object?> result = await teaReviews.add(
       teaReview.toJson(),
     );
     // add it to collection at right place
+
+    return result.id;
   }
 }

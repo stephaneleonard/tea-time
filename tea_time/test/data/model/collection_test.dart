@@ -38,7 +38,7 @@ void main() {
       ),
       TeaContainerModel(
         filled: false,
-      )
+      ),
     ],
     owner: 'owner',
     id: 'id',

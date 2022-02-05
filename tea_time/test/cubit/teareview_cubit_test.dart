@@ -20,6 +20,7 @@ class MockTeaReviewRepository implements TeaReviewrepository {
     if (id == 'id1') {
       throw 'error test';
     }
+
     return Future<TeaReview>.delayed(
       const Duration(milliseconds: 1),
       () => teaReview,
@@ -43,7 +44,7 @@ void main() {
       act: (TeaReviewCubit cubit) => cubit.getTeaReviewById('id'),
       expect: () => <TeaReviewState>[
         const TeaReviewLoading(),
-        const TeaReviewLoaded(teaReview)
+        const TeaReviewLoaded(teaReview),
       ],
     );
 
@@ -53,7 +54,7 @@ void main() {
       act: (TeaReviewCubit cubit) => cubit.getTeaReviewById('id1'),
       expect: () => <TeaReviewState>[
         const TeaReviewLoading(),
-        const TeaReviewError('error test')
+        const TeaReviewError('error test'),
       ],
     );
 

@@ -18,8 +18,8 @@ class SignInButton extends StatelessWidget {
             double.infinity,
             50,
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
         ),
         onPressed: func,

@@ -1,7 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tea_time/data/model/collection_model.dart';
 import 'package:tea_time/domain/entities/collection.dart';
+import 'package:tea_time/domain/entities/tea_container.dart';
 import 'package:tea_time/domain/repository/collection_repository.dart';
+
+List<Map<String, dynamic>> updateList(
+  int position,
+  List<Map<String, dynamic>> containerList,
+  TeaContainer container,
+) {
+  // Insert tea container inside list at uuid
+  if (position >= containerList.length) {
+    containerList.insert(position, container.toJson());
+  } else {
+    containerList[position] = container.toJson();
+  }
+
+  return containerList;
+
+  // return collection updated
+  // await collections.doc(uid).update(
+  //   <String, dynamic>{
+  //     'containers': containerList,
+  //   },
+  // );
+}
 
 class CollectionRepositoryImpl implements CollectionRepository {
   final CollectionReference<Object?> collections =
@@ -36,5 +59,20 @@ class CollectionRepositoryImpl implements CollectionRepository {
     });
 
     return _collection.id;
+  }
+
+  @override
+  Future<void> updateContainerList(
+    int position,
+    String uid,
+    List<Map<String, dynamic>> containerList,
+    TeaContainer container,
+  ) async {
+    final List<Map<String, dynamic>> _updatedList =
+        updateList(position, containerList, container);
+
+    await collections.doc(uid).update(<String, dynamic>{
+      'containers': _updatedList,
+    });
   }
 }

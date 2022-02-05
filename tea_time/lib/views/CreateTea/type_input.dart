@@ -13,10 +13,14 @@ class TypeInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _onTap(String? s) {
+      func(s ?? 'green');
+    }
+
     return DropdownButton<String>(
       isExpanded: true,
       value: type,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
       items: const <DropdownMenuItem<String>>[
         DropdownMenuItem<String>(
           value: 'green',
@@ -38,10 +42,16 @@ class TypeInput extends StatelessWidget {
           value: 'white',
           child: Text('White'),
         ),
+        DropdownMenuItem<String>(
+          value: 'rooibos',
+          child: Text('Rooibos'),
+        ),
+        DropdownMenuItem<String>(
+          value: 'infusion',
+          child: Text('Infusion'),
+        ),
       ],
-      onChanged: (String? s) {
-        func(s ?? 'green');
-      },
+      onChanged: _onTap,
     );
   }
 }

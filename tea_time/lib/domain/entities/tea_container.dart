@@ -13,11 +13,11 @@ class TeaContainer extends Equatable {
   final bool filled;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['filled'] = this.filled;
-    data['type'] = this.type;
-    data['reviewId'] = this.reviewId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['filled'] = filled;
+    data['type'] = type;
+    data['reviewId'] = reviewId;
 
     return data;
   }

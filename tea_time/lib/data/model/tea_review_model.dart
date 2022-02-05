@@ -7,6 +7,7 @@ class TeaReviewModel extends TeaReview {
     required int seconds,
     required int temp,
     required String type,
+    String? notes,
     String? origin,
   }) : super(
           id: id,
@@ -15,6 +16,7 @@ class TeaReviewModel extends TeaReview {
           seconds: seconds,
           temp: temp,
           type: type,
+          notes: notes,
         );
 
   factory TeaReviewModel.fromJson(Map<String, dynamic> json, String id) {
@@ -25,6 +27,7 @@ class TeaReviewModel extends TeaReview {
       temp: json['temp'] as int,
       type: json['type'] as String,
       origin: json['origin'] as String?,
+      notes: json['notes'] as String?,
     );
   }
 }

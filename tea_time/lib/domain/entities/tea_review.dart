@@ -8,6 +8,7 @@ class TeaReview extends Equatable {
     required this.seconds,
     required this.temp,
     required this.type,
+    required this.notes,
   });
   final String id;
   final String name;
@@ -15,18 +16,21 @@ class TeaReview extends Equatable {
   final int seconds;
   final int temp;
   final String type;
+  final String? notes;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['origin'] = this.origin;
-    data['seconds'] = this.seconds;
-    data['temp'] = this.temp;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['origin'] = origin;
+    data['seconds'] = seconds;
+    data['temp'] = temp;
+    data['type'] = type;
+    data['notes'] = notes;
 
     return data;
   }
 
   @override
-  List<Object?> get props => <Object?>[name, origin, seconds, temp, type];
+  List<Object?> get props =>
+      <Object?>[name, origin, seconds, temp, type, notes];
 }

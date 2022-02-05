@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tea_time/cubit/user_cubit.dart';
 import 'package:tea_time/data/repository/collection_repository_impl.dart';
 import 'package:tea_time/data/repository/user_repository_impl.dart';
-import 'package:tea_time/views/LoginScreen/login_screen.dart';
 import 'package:tea_time/widgets/custom_app_bar.dart';
+import 'package:tea_time/widgets/custom_input_field.dart';
 
 class CollectionCreationScreen extends StatefulWidget {
   const CollectionCreationScreen({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _CollectionCreationScreenState extends State<CollectionCreationScreen> {
   Widget build(BuildContext context) {
     final String id =
         // ignore: cast_nullable_to_non_nullable
-        ModalRoute.of(context)!.settings.arguments as String;
+        ModalRoute.of(context)?.settings.arguments as String;
 
     return Scaffold(
       appBar: const CustomAppBar(title: 'Tea Time'),
@@ -63,8 +63,8 @@ class _CollectionCreationScreenState extends State<CollectionCreationScreen> {
                       double.infinity,
                       50,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
                   onPressed: () async {

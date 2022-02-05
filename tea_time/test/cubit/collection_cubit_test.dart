@@ -14,13 +14,16 @@ const Collection collection = Collection(
 
 class MockCollectionRepository implements CollectionRepository {
   @override
-  Future<void> addAContainer(String uid) async {}
+  Future<void> addAContainer(String uid) async {
+    throw 'error';
+  }
 
   @override
   Future<Collection> fetchCollection(String id) async {
     if (id == 'id1') {
       throw 'error test';
     }
+
     return Future<Collection>.delayed(
       const Duration(milliseconds: 1),
       () => collection,
@@ -30,6 +33,17 @@ class MockCollectionRepository implements CollectionRepository {
   @override
   Future<String> createCollection(String id, String name) {
     // TODO: implement createCollection
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateContainerList(
+    int position,
+    String uid,
+    List<Map<String, dynamic>> containerList,
+    TeaContainer container,
+  ) {
+    // TODO: implement updateContainerList
     throw UnimplementedError();
   }
 }
@@ -50,7 +64,7 @@ void main() {
       act: (CollectionCubit cubit) => cubit.getCollection('id'),
       expect: () => <CollectionState>[
         const CollectionLoading(),
-        const CollectionLoaded(collection)
+        const CollectionLoaded(collection),
       ],
     );
 
@@ -60,7 +74,7 @@ void main() {
       act: (CollectionCubit cubit) => cubit.getCollection('id1'),
       expect: () => <CollectionState>[
         const CollectionLoading(),
-        const CollectionError('error test')
+        const CollectionError('error test'),
       ],
     );
 

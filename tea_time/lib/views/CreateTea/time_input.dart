@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import 'package:tea_time/views/BrewingScreen/brewing_screen.dart';
+import 'package:tea_time/widgets/icon_and_int.dart';
 
 class TimeInput extends StatelessWidget {
   const TimeInput({
@@ -18,63 +18,71 @@ class TimeInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Picker(
-          adapter: NumberPickerAdapter(
-            data: <NumberPickerColumn>[
-              NumberPickerColumn(
-                initValue: minutes,
-                end: 15,
-              ),
-              NumberPickerColumn(
-                initValue: seconds,
-                end: 45,
-                jump: 15,
-              ),
-            ],
-          ),
-          delimiter: <PickerDelimiter>[
-            PickerDelimiter(
-              child: Container(
-                width: 20.0,
-                alignment: Alignment.center,
-                child: const Text(
-                  ':',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+    void _onConfirm(Picker picker, List<int> value) {
+      // You get your duration here
+      func(
+        picker.getSelectedValues().first as int,
+        picker.getSelectedValues()[1] as int,
+      );
+    }
+
+    void _onTap() {
+      Picker(
+        adapter: NumberPickerAdapter(
+          data: <NumberPickerColumn>[
+            NumberPickerColumn(
+              initValue: minutes,
+              end: 15,
+              onFormatValue: (int value) => value.toString().padLeft(2, '0'),
+            ),
+            NumberPickerColumn(
+              initValue: seconds,
+              end: 45,
+              jump: 15,
+              onFormatValue: (int value) => value.toString().padLeft(2, '0'),
+            ),
+          ],
+        ),
+        delimiter: <PickerDelimiter>[
+          PickerDelimiter(
+            child: Container(
+              width: 20.0,
+              alignment: Alignment.center,
+              child: const Text(
+                ':',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-          ],
-          hideHeader: true,
-          confirmText: 'Select',
-          cancelText: 'cancel',
-          cancelTextStyle: TextStyle(
-            inherit: false,
-            color: Colors.grey.shade400,
-            fontSize: 16,
           ),
-          confirmTextStyle: const TextStyle(
-            fontSize: 16,
-            color: Colors.green,
-          ),
-          title: const Text('Select duration'),
-          selectedTextStyle: const TextStyle(color: Colors.blue),
-          onConfirm: (Picker picker, List<int> value) {
-            // You get your duration here
-            func(
-              picker.getSelectedValues()[0] as int,
-              picker.getSelectedValues()[1] as int,
-            );
-          },
-        ).showDialog(context);
-      },
+        ],
+        hideHeader: true,
+        textStyle: const TextStyle(color: Colors.grey, fontSize: 17),
+        confirmText: 'Select',
+        cancelText: 'cancel',
+        cancelTextStyle: TextStyle(
+          inherit: false,
+          color: Colors.grey.shade400,
+          fontSize: 16,
+        ),
+        confirmTextStyle: const TextStyle(
+          fontSize: 16,
+          color: Colors.green,
+        ),
+        title: const Text('Select duration'),
+        selectedTextStyle: const TextStyle(color: Colors.blue),
+        onConfirm: _onConfirm,
+      ).showDialog(context);
+    }
+
+    return GestureDetector(
+      onTap: _onTap,
       child: IconAndInt(
         icon: Icons.hourglass_bottom,
-        value: '$minutes : $seconds',
+        value:
+            """${minutes.toString().padLeft(2, "0")} : ${seconds.toString().padLeft(2, "0")}'""",
         color: Colors.green,
       ),
     );

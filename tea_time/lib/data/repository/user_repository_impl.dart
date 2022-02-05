@@ -9,7 +9,7 @@ class UserRepositoryImpl implements UserRepository {
       FirebaseFirestore.instance.collection('User');
   @override
   Future<User> fetchUser() async {
-    final String id = firebaseAuth.currentUser!.uid;
+    final String id = firebaseAuth.currentUser?.uid ?? '';
     final QuerySnapshot<Map<String, dynamic>?> data = await users
         .where('UID', isEqualTo: id)
         .get() as QuerySnapshot<Map<String, dynamic>?>;
@@ -18,9 +18,9 @@ class UserRepositoryImpl implements UserRepository {
     }
 
     return UserModel.fromJson(
-      data.docs[0].data() ?? <String, dynamic>{},
+      data.docs.first.data() ?? <String, dynamic>{},
       id,
-      data.docs[0].id,
+      data.docs.first.id,
     );
   }
 

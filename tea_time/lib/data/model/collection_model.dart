@@ -13,15 +13,13 @@ class CollectionModel extends Collection {
   factory CollectionModel.fromJson(Map<String, dynamic> json, String id) {
     final List<TeaContainer> containerList = <TeaContainer>[];
 
-    json['containers'].forEach(
-      (dynamic mapValue) {
-        containerList.add(
-          TeaContainerModel.fromJson(
-            Map<String, dynamic>.from(mapValue as Map<String, dynamic>),
-          ),
-        );
-      },
-    );
+    for (final Map<String, dynamic> container in json['containers']) {
+      containerList.add(
+        TeaContainerModel.fromJson(
+          Map<String, dynamic>.from(container),
+        ),
+      );
+    }
 
     return CollectionModel(
       containers: containerList,
@@ -35,7 +33,8 @@ class CollectionModel extends Collection {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     if (containers != null) {
-      data['containers'] = containers!
+      final List<TeaContainer> nncontainers = containers ?? <TeaContainer>[];
+      data['containers'] = nncontainers
           .map((TeaContainer container) => container.toJson())
           .toList();
     }
